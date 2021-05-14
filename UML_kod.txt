@@ -1,0 +1,48 @@
+@startuml
+hide empty members
+
+class Product {
++ __init__(self, name: str, price: float)
+
++ name: str
++ price: float
+}
+
+class Server {
++ n_max_returned_entries: int
+
++ {abstract} __init__(self)
++ {abstract} get_entries(self, n_letters: Optional[int]): List[Product]
+}
+
+class ListServer {
++ __init__(self, productlist: List[Product])
++ get_entries(self, n_letters: Optional[int]): List[Product]
+}
+
+class MapServer {
++ __init__(self, productlist: List[Product])
++ get_entries(self, n_letters: Optional[int]): List[Product]
+}
+
+class Client { 
++ __init__(self, city_centre: Server)
++ get_total_price(self, n_letters: Optional[int]): Optional[float]:
+}
+
+class ServerError {}
+
+
+class TooManyProductsFoundError {}
+
+
+Client o-- Server
+Server <|-- MapServer
+Server <|-- ListServer
+MapServer *-- Product
+ListServer *-- Product
+Server ..> TooManyProductsFoundError : << uses >>
+Exception <|-- ServerError
+ServerError <|-- TooManyProductsFoundError
+
+@enduml
