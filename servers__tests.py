@@ -14,21 +14,21 @@ class ServerTest(unittest.TestCase):
             entries = server.get_entries(2)
             self.assertEqual(Counter([products[2], products[1]]), Counter(entries))
 
-    def test_sprawdz_kolejnosc_listy(self):
+    def test_check_list_order(self):
         products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1), Product('AC10', 5)]
         for server_type in server_types:
             server = server_type(products)
             entries = server.get_entries(2)
             self.assertEqual([Product('PP235', 1), Product('PP234', 2), Product('AC10', 5)], entries)
 
-    def test_sprawdz_czy_blad(self):
+    def test_check_if_error(self):
         products = [Product('PN12', 3), Product('PP234', 2), Product('PP235', 1), Product('AC10', 5)]
         for server_type in server_types:
             server = server_type(products)
             with self.assertRaises(TooManyProductsFoundError):
                 entries = server.get_entries(2)
 
-    def test_sprawdz_czy_pusta_lista(self):
+    def test_check_if_empty_list(self):
         products = [Product('PN12', 1), Product('PP234', 2), Product('PP235', 1), Product('AC10', 5)]
         for server_type in server_types:
             server = server_type(products)
@@ -44,14 +44,14 @@ class ClientTest(unittest.TestCase):
             client = Client(server)
             self.assertEqual(5, client.get_total_price(2))
 
-    def test_sprawdz_dla_pustej(self):
+    def test_check_for_empty(self):
         products = [Product('PN12', 1), Product('PP234', 2), Product('PP235', 1), Product('AC10', 5), Product('AMN32', 2)]
         for server_type in server_types:
             server = server_type(products)
             client = Client(server)
             self.assertEqual(None, client.get_total_price(1))
 
-    def test_sprawdz_dla_za_duzej_listy(self):
+    def test_check_for_too_big_list(self):
         products = [Product('PN12', 1), Product('PP234', 2), Product('PP235', 1), Product('AC10', 5), Product('AMN32', 2)]
         for server_type in server_types:
             server = server_type(products)
